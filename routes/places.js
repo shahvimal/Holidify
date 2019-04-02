@@ -6,6 +6,12 @@ var middleware = require("../middleware");
 var geocoder = require('geocoder');
 var { isLoggedIn, checkUserPlace, checkUserComment, isAdmin, isSafe } = middleware; // destructuring assignment
 
+// var NodeGeocoder = require('node-geocoder');
+// var options = {
+//   provider: 'google',
+// };
+// var geocoder = NodeGeocoder(options);
+
 // Define escapeRegex function for search feature
 function escapeRegex(text) {
     return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
@@ -50,10 +56,9 @@ router.post("/", isLoggedIn, isSafe, function(req, res){
       username: req.user.username
   }
   var cost = req.body.cost;
-  geocoder.geocode(req.body.location, function (err, data) {
-    var lat = data.results[0].geometry.location.lat;
-    var lng = data.results[0].geometry.location.lng;
-    var location = data.results[0].formatted_address;
+    var lat = 0;
+    var lng = 0;
+    var location = 'Mahablaeeshjhg';
     var newPlace = {name: name, image: image, description: desc, cost: cost, author:author, location: location, lat: lat, lng: lng};
     // Create a new place and save to DB
     Place.create(newPlace, function(err, newlyCreated){
@@ -65,7 +70,6 @@ router.post("/", isLoggedIn, isSafe, function(req, res){
             res.redirect("/places");
         }
     });
-  });
 });
 
 //NEW - show form to create new place
